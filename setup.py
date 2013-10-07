@@ -10,7 +10,7 @@ setuptools.setup(
     description = "Command Line Interactive Shell Framework.",
     license = "BSD",
     keywords = "cli command line shell framework readline console",
-    url = "http://www.github.com/",
+    url = "https://github.com/vit1251/clish",
     packages = ['clish'],
     package_dir = {'': 'src'},
     classifiers=[
