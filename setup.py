@@ -1,10 +1,9 @@
 #!/usr/bin/python
 
-import os
-import setuptools
+from setuptools import find_packages, setup
 
 
-setuptools.setup(
+setup(
     name="clish",
     version="0.2",
     author="Vitold Sedyshev",

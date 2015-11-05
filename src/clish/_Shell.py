@@ -1,57 +1,85 @@
 #
 
+from __future__ import print_function
+
+import logging
+
+from clish.commands import HelpCommand, ExitCommand
+
+
 class Shell(object):
     def __init__(self, banner="Welcome to Interactive Shell", prompt=" >>> "):
-        self.banner = banner
-        self.prompt = prompt
-        self.commands = { }
-        self.add_command(self._HelpCommand(self.commands))
-        self.add_command(self._ExitCommand())
+        self.__log = logging.getLogger('clish.shell')
+        #
+        self.__banner = banner
+        self.__prompt = prompt
+        self.__commands = {}
+        #
+        self.add_command(HelpCommand(parent=self))
+        self.add_command(ExitCommand(parent=self))
+
+    def commands(self):
+        """ Returns commands
+        """
+        return self.__commands
 
     def add_command(self, command):
         command_name = command.name()
-        if command_name in self.commands:
+        if command_name in self.__commands:
             raise Exception('Command {command_name!r} already exist!'.format(command_name=command_name))
         #
-        self.commands[command_name] = command
+        self.__commands[command_name] = command
 
-    def processInput(self, command_line):
-        command_line = command_line.strip() # TODO - switch to sheel parser method ...
-
+    def processLine(self, command_line):
+        """ Write parser there
+        """
         # Get command
-        command_args = ""
+        result = []
+        #
         if " " in command_line:
             command_line_index = command_line.index(" ")
             command_name = command_line[:command_line_index]
             command_args = command_line[command_line_index+1:]
+            #
+            result.append(command_name)
+            result.append(command_args)
         else:
             command_name = command_line
+        #
+        return result
 
-        # Show message when no command
-        if not command_name in self.commands:
+    def processInput(self, command_line):
+        command_line = command_line.strip() # TODO - switch to sheel parser method ...
+        #
+        args = self.processLine(command_line)
+        if len(args) > 0:
+            command_name = args[0]
+            command_args = args[1:]
+        else:
+            command_name = command_line
+            command_args = []
+        #
+        command = self.__commands.get(command_name)
+        if command is not None:
+            args = []
+            try:
+                command.processCommand(*command_args)
+            except Exception as err:
+                self.__log.exception("Exception occurred while processing command.")
+        else:
             print('Unknown command: {command_name!r}. Type "help" for a list of commands.'.format(command_name=command_name))
-            return
 
-        command = self.commands[command_name]
-
-        args = []
-        # TODO - parse parameters in line ...
-        try:
-            command.processCommand(*args)
-        except Exception as err:
-            print("Exception occurred while processing command.")
-            traceback.print_exc( )
 
     def run(self):
-        print(self.banner)
+        print(self.__banner)
         print()
         print('Type "help" at any time for a list of commands.')
         self.__running = True
         while self.__running is True:
             try:
                 print()
-                command_line = raw_input(self.prompt)
-            except KeyboardInterrupt as err
+                command_line = raw_input(self.__prompt)
+            except KeyboardInterrupt as err:
                 break
             except EOFError as err:
                 break

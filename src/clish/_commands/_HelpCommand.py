@@ -3,7 +3,7 @@
 from clish import Command
 
 
-class _HelpCommand(Command):
+class HelpCommand(Command):
     """
     Prints a list of available commands and their descriptions, or the help
     text of a specific command. Requires a list of the available commands in
@@ -12,14 +12,14 @@ class _HelpCommand(Command):
     @ivar commands: A dictionary of available commands, bound to L{InteractiveShell.commands}
     @type commands: C{dict}
     """
-    def __init__(self, commands):
+    def __init__(self, parent):
         """
         Constructor function for L{_HelpCommand}.
         
         @param commands: A dictionary of available commands, usually L{InteractiveShell.commands}
         @type commands: C{dict}
         """
-        self.commands = commands
+        self.commands = parent.commands()
 
     def name(self):
         return 'help'
@@ -79,4 +79,4 @@ class _HelpCommand(Command):
                 
 
     def description(self):
-        return 'Show main help'
+        return 'Show help'
