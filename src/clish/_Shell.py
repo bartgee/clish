@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import shlex
 import logging
 
 from clish.commands import HelpCommand, ExitCommand
@@ -36,15 +37,11 @@ class Shell(object):
         # Get command
         result = []
         #
-        if " " in command_line:
-            command_line_index = command_line.index(" ")
-            command_name = command_line[:command_line_index]
-            command_args = command_line[command_line_index+1:]
-            #
-            result.append(command_name)
-            result.append(command_args)
-        else:
-            command_name = command_line
+        try:
+            result = shlex.split(command_line, False, True)
+            self.__log.debug("Parse string is {args!r}".format(args=args))
+        except Exception as err:
+            self.__log.exception(err)
         #
         return result
 
