@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="clish",
-    version="0.3",
+    version="0.4",
     author="Vitold Sedyshev",
     author_email="vit1251@gmail.com",
     description="Command Line Interactive Shell Framework.",

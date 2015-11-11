@@ -7,6 +7,7 @@ apipkg.initpkg(__name__, {
         "ExitCommand": "clish._commands._ExitCommand:ExitCommand",
     },
 
+    'Namespace': "clish._Namespace:Namespace",
     'Command'  : "clish._Command:Command",
     'Shell'    : "clish._Shell:Shell",
 
