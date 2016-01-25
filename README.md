@@ -1,6 +1,8 @@
 clish
 =====
 
+[![Documentation Status](https://readthedocs.org/projects/clish/badge/?version=latest)](http://clish.readthedocs.org/en/latest/?badge=latest)
+
 Command Line Shell Framework is application framework to create application with shell interactive interface.
 
 ```python
