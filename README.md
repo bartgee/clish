@@ -1,6 +1,8 @@
 clish
 =====
 
+[![Documentation Status](https://readthedocs.org/projects/clish/badge/?version=latest)](http://clish.readthedocs.org/en/latest/?badge=latest)
+
 Command Line Shell Framework is application framework to create application with shell interactive interface.
 
 ```python
@@ -9,7 +11,7 @@ Command Line Shell Framework is application framework to create application with
 import os
 import time
 
-from clish import InteractiveCommand, InteractiveShell
+from clish import Command, Shell
 
 
 class Application(object):
@@ -17,7 +19,7 @@ class Application(object):
         self.client = None
 
     def run(self):
-        shell = InteractiveShell(banner="Welcome to CLI Shell v0.1", prompt="clish> ")
+        shell = Shell(banner="Welcome to CLI Shell v0.1", prompt="clish> ")
         shell.run()
 
 
@@ -34,17 +36,17 @@ This application will return follow interactive console:
 
 
 ```
-Welcome to CLI Shell v0.1
+Welcome to CLI Shell v0.4
 
 Type "help" at any time for a list of commands.
 
-clish> hello
+>>> hello
 Unknown command: "hello". Type "help" for a list of commands.
 
-clish> help
+>>> help
 The following commands are available:
 
   exit     Exit the program.
 
-clish> exit
+>>> exit
 ```
